@@ -32,7 +32,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["var(--font-sohne)", "Inter", "system-ui", "sans-serif"],
+        serif: ["var(--font-signifier)", "Playfair Display", "Georgia", "serif"],
       },
     },
   },

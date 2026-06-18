@@ -16,148 +16,125 @@ const INJECTED_STYLES = `
   /* Environment Overlays */
   .film-grain {
       position: absolute; inset: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 50; opacity: 0.05; mix-blend-mode: overlay;
+      pointer-events: none; z-index: 50; opacity: 0.03; mix-blend-mode: overlay;
       background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
   }
 
   .bg-grid-theme {
       background-size: 60px 60px;
       background-image: 
-          linear-gradient(to right, color-mix(in srgb, var(--color-foreground) 5%, transparent) 1px, transparent 1px),
-          linear-gradient(to bottom, color-mix(in srgb, var(--color-foreground) 5%, transparent) 1px, transparent 1px);
+          linear-gradient(to right, rgba(23, 25, 28, 0.03) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(23, 25, 28, 0.03) 1px, transparent 1px);
       mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
       -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
   }
 
   /* -------------------------------------------------------------------
-     PHYSICAL SKEUOMORPHIC MATERIALS (Restored 3D Depth)
+     PHYSICAL SKEUOMORPHIC MATERIALS (Restored 3D Depth - Light Theme)
   ---------------------------------------------------------------------- */
   
-  /* OUTSIDE THE CARD: Theme-aware text (Shadow in Light Mode, Glow in Dark Mode) */
   .text-3d-matte {
-      color: var(--color-foreground);
-      text-shadow: 
-          0 10px 30px color-mix(in srgb, var(--color-foreground) 20%, transparent), 
-          0 2px 4px color-mix(in srgb, var(--color-foreground) 10%, transparent);
+      color: #17191c;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
 
   .text-silver-matte {
-      background: linear-gradient(180deg, var(--color-foreground) 0%, color-mix(in srgb, var(--color-foreground) 40%, transparent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      transform: translateZ(0); /* Hardware acceleration to prevent WebKit clipping bug */
-      filter: 
-          drop-shadow(0px 10px 20px color-mix(in srgb, var(--color-foreground) 15%, transparent)) 
-          drop-shadow(0px 2px 4px color-mix(in srgb, var(--color-foreground) 10%, transparent));
+      color: #17191c;
   }
 
-  /* INSIDE THE CARD: Hardcoded Silver/White for the dark background, deep rich shadows */
+  /* INSIDE THE CARD: Editorial typography for light theme */
   .text-card-silver-matte {
-      background: linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      transform: translateZ(0);
-      filter: 
-          drop-shadow(0px 12px 24px rgba(0,0,0,0.8)) 
-          drop-shadow(0px 4px 8px rgba(0,0,0,0.6));
+      color: #17191c;
   }
 
   /* Deep Physical Card with Dynamic Mouse Lighting */
   .premium-depth-card {
-      background: linear-gradient(145deg, #151922 0%, #0F1117 100%);
+      background: #ffffff;
       box-shadow: 
-          0 40px 100px -20px rgba(0, 0, 0, 0.9),
-          0 20px 40px -20px rgba(0, 0, 0, 0.8),
-          inset 0 1px 2px rgba(255, 255, 255, 0.2),
-          inset 0 -2px 4px rgba(0, 0, 0, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.04);
+          0 40px 100px -20px rgba(4, 23, 43, 0.08),
+          0 20px 40px -20px rgba(0, 0, 0, 0.04),
+          inset 0 1px 2px rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(163, 166, 175, 0.2);
       position: relative;
   }
 
   .card-sheen {
       position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 50;
-      background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.06) 0%, transparent 40%);
-      mix-blend-mode: screen; transition: opacity 0.3s ease;
+      background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(93, 42, 26, 0.03) 0%, transparent 40%);
+      mix-blend-mode: multiply; transition: opacity 0.3s ease;
   }
 
-  /* Realistic iPhone Mockup Hardware */
+  /* Realistic iPhone Mockup Hardware - Light Theme */
   .iphone-bezel {
-      background-color: #111;
+      background-color: #ffffff;
       box-shadow: 
-          inset 0 0 0 2px #52525B, 
-          inset 0 0 0 7px #000, 
-          0 40px 80px -15px rgba(0,0,0,0.9),
-          0 15px 25px -5px rgba(0,0,0,0.7);
+          inset 0 0 0 2px #d1d5db, 
+          inset 0 0 0 7px #f3f4f6, 
+          0 40px 80px -15px rgba(4, 23, 43, 0.12),
+          0 15px 25px -5px rgba(0,0,0,0.05);
       transform-style: preserve-3d;
+      border: 1px solid #e5e7eb;
   }
 
   .hardware-btn {
-      background: linear-gradient(90deg, #404040 0%, #171717 100%);
+      background: linear-gradient(90deg, #d1d5db 0%, #9ca3af 100%);
       box-shadow: 
-          -2px 0 5px rgba(0,0,0,0.8),
-          inset -1px 0 1px rgba(255,255,255,0.15),
-          inset 1px 0 2px rgba(0,0,0,0.8);
-      border-left: 1px solid rgba(255,255,255,0.05);
+          -2px 0 5px rgba(0,0,0,0.05),
+          inset -1px 0 1px rgba(255,255,255,0.8);
   }
   
   .screen-glare {
-      background: linear-gradient(110deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 45%);
+      background: linear-gradient(110deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 45%);
   }
 
   .widget-depth {
-      background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+      background: #ffffff;
       box-shadow: 
-          0 10px 20px rgba(0,0,0,0.3),
-          inset 0 1px 1px rgba(255,255,255,0.05),
-          inset 0 -1px 1px rgba(0,0,0,0.5);
-      border: 1px solid rgba(255,255,255,0.03);
+          0 6px 12px rgba(0, 0, 0, 0.02),
+          inset 0 1px 1px rgba(255, 255, 255, 1);
+      border: 1px solid rgba(163, 166, 175, 0.15);
   }
 
   .floating-ui-badge {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 100%);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(24px); 
       -webkit-backdrop-filter: blur(24px);
       box-shadow: 
-          0 0 0 1px rgba(255, 255, 255, 0.1),
-          0 25px 50px -12px rgba(0, 0, 0, 0.8),
-          inset 0 1px 1px rgba(255,255,255,0.2),
-          inset 0 -1px 1px rgba(0,0,0,0.5);
+          0 0 0 1px rgba(23, 25, 28, 0.05),
+          0 20px 40px -10px rgba(4, 23, 43, 0.1);
   }
 
-  /* Physical Tactile Buttons */
+  /* Physical Tactile Buttons - Ink Style */
   .btn-modern-light, .btn-modern-dark {
-      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   }
   .btn-modern-light {
-      background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
-      color: #0F172A;
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.1), 0 12px 24px -4px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,1), inset 0 -3px 6px rgba(0,0,0,0.06);
+      background: #17191c;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(23, 25, 28, 0.15);
+      border-radius: 9999px;
   }
   .btn-modern-light:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 6px 12px -2px rgba(0,0,0,0.15), 0 20px 32px -6px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,1), inset 0 -3px 6px rgba(0,0,0,0.06);
+      transform: translateY(-2px);
+      background: #000000;
+      box-shadow: 0 8px 16px rgba(23, 25, 28, 0.25);
   }
   .btn-modern-light:active {
       transform: translateY(1px);
-      background: linear-gradient(180deg, #F1F5F9 0%, #E2E8F0 100%);
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1), inset 0 3px 6px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(0,0,0,0.02);
   }
   .btn-modern-dark {
-      background: linear-gradient(180deg, #27272A 0%, #18181B 100%);
-      color: #FFFFFF;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.6), 0 12px 24px -4px rgba(0,0,0,0.9), inset 0 1px 1px rgba(255,255,255,0.15), inset 0 -3px 6px rgba(0,0,0,0.8);
+      background: transparent;
+      color: #17191c;
+      border: 1px solid rgba(163, 166, 175, 0.4);
+      border-radius: 9999px;
   }
   .btn-modern-dark:hover {
-      transform: translateY(-3px);
-      background: linear-gradient(180deg, #3F3F46 0%, #27272A 100%);
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.15), 0 6px 12px -2px rgba(0,0,0,0.7), 0 20px 32px -6px rgba(0,0,0,1), inset 0 1px 1px rgba(255,255,255,0.2), inset 0 -3px 6px rgba(0,0,0,0.8);
+      transform: translateY(-2px);
+      background: rgba(23, 25, 28, 0.04);
+      border-color: #17191c;
   }
   .btn-modern-dark:active {
       transform: translateY(1px);
-      background: #18181B;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.05), inset 0 3px 8px rgba(0,0,0,0.9), inset 0 0 0 1px rgba(0,0,0,0.5);
   }
 
   .progress-ring {
@@ -325,7 +302,7 @@ export function CinematicHero({
   return (
     <div
       ref={containerRef}
-      className={cn("relative w-screen h-screen overflow-hidden flex items-center justify-center bg-dark-bg text-white font-sans antialiased", className)}
+      className={cn("relative w-screen h-screen overflow-hidden flex items-center justify-center bg-white text-[#17191c] font-sans antialiased", className)}
       style={{ perspective: "1500px" }}
       {...props}
     >
@@ -335,20 +312,20 @@ export function CinematicHero({
 
       {/* BACKGROUND LAYER: Hero Texts */}
       <div className="hero-text-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-screen px-4 will-change-transform transform-style-3d">
-        <h1 className="text-track gsap-reveal text-3d-matte text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tight mb-2">
+        <h1 className="text-track gsap-reveal text-3d-matte text-5xl md:text-7xl lg:text-[5.5rem] font-serif font-normal tracking-tight mb-2">
           {tagline1}
         </h1>
-        <h1 className="text-days gsap-reveal text-silver-matte text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter">
+        <h1 className="text-days gsap-reveal text-silver-matte text-5xl md:text-7xl lg:text-[5.5rem] font-serif font-normal italic text-[#5d2a1a] tracking-tighter">
           {tagline2}
         </h1>
       </div>
 
       {/* BACKGROUND LAYER 2: Tactile CTA Buttons */}
       <div className="cta-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-screen px-4 gsap-reveal pointer-events-auto will-change-transform">
-        <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-silver-matte">
+        <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif font-normal text-[#17191c] mb-6 tracking-tight">
           {ctaHeading}
         </h2>
-        <p className="text-neutral-400 text-lg md:text-xl mb-12 max-w-xl mx-auto font-light leading-relaxed">
+        <p className="text-[#4c4c4c] text-base md:text-lg mb-12 max-w-xl mx-auto font-sans leading-relaxed">
           {ctaDescription}
         </p>
         <div className="flex flex-col sm:flex-row gap-6">
@@ -357,7 +334,7 @@ export function CinematicHero({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
             </svg>
             <div className="text-left">
-              <div className="text-[10px] font-bold tracking-wider text-neutral-500 uppercase mb-[-2px]">Dapatkan Akses</div>
+              <div className="text-[10px] font-bold tracking-wider text-neutral-400 uppercase mb-[-2px]">Dapatkan Akses</div>
               <div className="text-xl font-bold leading-none tracking-tight">Daftar Sekarang</div>
             </div>
           </a>
@@ -367,7 +344,7 @@ export function CinematicHero({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
             <div className="text-left">
-              <div className="text-[10px] font-bold tracking-wider text-neutral-400 uppercase mb-[-2px]">Tonton Simulator</div>
+              <div className="text-[10px] font-bold tracking-wider text-neutral-500 uppercase mb-[-2px]">Tonton Simulator</div>
               <div className="text-xl font-bold leading-none tracking-tight">Lihat Demo</div>
             </div>
           </a>
@@ -387,7 +364,7 @@ export function CinematicHero({
             
             {/* 1. TOP (Mobile) / RIGHT (Desktop): BRAND NAME */}
             <div className="card-right-text gsap-reveal order-1 lg:order-3 flex justify-center lg:justify-end z-20 w-full">
-              <h2 className="text-6xl md:text-[6rem] lg:text-[7rem] font-black uppercase tracking-tighter text-card-silver-matte lg:mt-0 text-primary">
+              <h2 className="text-6xl md:text-[6rem] lg:text-[7rem] font-serif font-bold uppercase tracking-tighter text-[#17191c] lg:mt-0">
                 {brandName}
               </h2>
             </div>
@@ -410,7 +387,7 @@ export function CinematicHero({
                   <div className="absolute top-[170px] -right-[3px] w-[3px] h-[70px] hardware-btn rounded-r-md z-0 scale-x-[-1]" aria-hidden="true" />
 
                   {/* Inner Screen Container */}
-                  <div className="absolute inset-[7px] bg-[#0F1117] rounded-[2.5rem] overflow-hidden shadow-[inset_0_0_15px_rgba(0,0,0,1)] text-white z-10">
+                  <div className="absolute inset-[7px] bg-[#f7f7f8] rounded-[2.5rem] overflow-hidden shadow-[inset_0_0_10px_rgba(0,0,0,0.05)] text-[#17191c] z-10">
                     <div className="absolute inset-0 screen-glare z-40 pointer-events-none" aria-hidden="true" />
 
                     {/* Dynamic Island Notch */}
@@ -423,66 +400,66 @@ export function CinematicHero({
                       <div className="phone-widget flex justify-between items-center mb-8">
                         <div className="flex flex-col">
                           <span className="text-[10px] text-neutral-400 uppercase tracking-widest font-bold mb-1">UMKM</span>
-                          <span className="text-xl font-bold tracking-tight text-white drop-shadow-md">KursAI</span>
+                          <span className="text-xl font-bold tracking-tight text-[#17191c]">KursAI</span>
                         </div>
-                        <div className="w-9 h-9 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-sm border border-primary/20 shadow-lg shadow-black/50">AI</div>
+                        <div className="w-9 h-9 rounded-full bg-[#fbe1d1] text-[#5d2a1a] flex items-center justify-center font-bold text-sm border border-[#5d2a1a]/20 shadow-sm">AI</div>
                       </div>
 
-                      <div className="phone-widget relative w-44 h-44 mx-auto flex items-center justify-center mb-8 drop-shadow-[0_15px_25px_rgba(0,0,0,0.8)]">
+                      <div className="phone-widget relative w-44 h-44 mx-auto flex items-center justify-center mb-8 drop-shadow-[0_15px_25px_rgba(0,0,0,0.05)]">
                         <svg className="absolute inset-0 w-full h-full" aria-hidden="true">
-                          <circle cx="88" cy="88" r="64" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="12" />
-                          <circle className="progress-ring" cx="88" cy="88" r="64" fill="none" stroke="#84CC16" strokeWidth="12" />
+                          <circle cx="88" cy="88" r="64" fill="none" stroke="rgba(23,25,28,0.04)" strokeWidth="12" />
+                          <circle className="progress-ring" cx="88" cy="88" r="64" fill="none" stroke="#5d2a1a" strokeWidth="12" />
                         </svg>
                         <div className="text-center z-10 flex flex-col items-center">
-                          <span className="counter-val text-3xl font-extrabold tracking-tighter text-white">0</span>
-                          <span className="text-[8px] text-primary/70 uppercase tracking-[0.1em] font-bold mt-0.5">{metricLabel}</span>
+                          <span className="counter-val text-3xl font-bold tracking-tighter text-[#17191c]">0</span>
+                          <span className="text-[8px] text-[#5d2a1a] uppercase tracking-[0.1em] font-bold mt-0.5">{metricLabel}</span>
                         </div>
                       </div>
 
                       <div className="space-y-3">
                         <div className="phone-widget widget-depth rounded-2xl p-3 flex items-center">
-                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500/20 to-green-600/5 flex items-center justify-center mr-3 border border-green-400/20 shadow-inner">
+                          <div className="w-10 h-10 rounded-xl bg-[#d3e3fc] flex items-center justify-center mr-3 border border-[#d3e3fc]/30 shadow-inner">
                             <span className="text-sm">📈</span>
                           </div>
                           <div className="flex-1">
-                            <div className="h-2 w-20 bg-neutral-300 rounded-full mb-2 shadow-inner" />
-                            <div className="h-1.5 w-12 bg-neutral-600 rounded-full shadow-inner" />
+                            <div className="h-2 w-20 bg-neutral-400 rounded-full mb-2 shadow-inner" />
+                            <div className="h-1.5 w-12 bg-neutral-300 rounded-full shadow-inner" />
                           </div>
                         </div>
                         <div className="phone-widget widget-depth rounded-2xl p-3 flex items-center">
-                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-600/5 flex items-center justify-center mr-3 border border-emerald-400/20 shadow-inner">
+                          <div className="w-10 h-10 rounded-xl bg-[#fbe1d1] flex items-center justify-center mr-3 border border-[#fbe1d1]/30 shadow-inner">
                             <span className="text-sm">📉</span>
                           </div>
                           <div className="flex-1">
-                            <div className="h-2 w-16 bg-neutral-300 rounded-full mb-2 shadow-inner" />
-                            <div className="h-1.5 w-24 bg-neutral-600 rounded-full shadow-inner" />
+                            <div className="h-2 w-16 bg-neutral-400 rounded-full mb-2 shadow-inner" />
+                            <div className="h-1.5 w-24 bg-neutral-300 rounded-full shadow-inner" />
                           </div>
                         </div>
                       </div>
 
-                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[120px] h-[4px] bg-white/20 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.5)]" />
+                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[120px] h-[4px] bg-black/10 rounded-full" />
                     </div>
                   </div>
                 </div>
 
                 {/* Floating Glass Badges */}
                 <div className="floating-badge absolute flex top-6 lg:top-12 left-[-15px] lg:left-[-80px] floating-ui-badge rounded-xl lg:rounded-2xl p-3 lg:p-4 items-center gap-3 lg:gap-4 z-30">
-                  <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-gradient-to-b from-primary/20 to-green-900/10 flex items-center justify-center border border-primary/30 shadow-inner">
+                  <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#fbe1d1] flex items-center justify-center border border-[#fbe1d1]/30 shadow-sm">
                     <span className="text-base lg:text-xl drop-shadow-lg" aria-hidden="true">💡</span>
                   </div>
                   <div>
-                    <p className="text-white text-xs lg:text-sm font-bold tracking-tight">AI Analisis</p>
-                    <p className="text-primary/70 text-[10px] lg:text-xs font-medium">Laba Naik 15%</p>
+                    <p className="text-[#17191c] text-xs lg:text-sm font-bold tracking-tight">AI Analisis</p>
+                    <p className="text-[#5d2a1a] text-[10px] lg:text-xs font-semibold">Laba Naik 15%</p>
                   </div>
                 </div>
 
                 <div className="floating-badge absolute flex bottom-12 lg:bottom-20 right-[-15px] lg:right-[-80px] floating-ui-badge rounded-xl lg:rounded-2xl p-3 lg:p-4 items-center gap-3 lg:gap-4 z-30">
-                  <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-gradient-to-b from-primary/20 to-green-900/10 flex items-center justify-center border border-primary/30 shadow-inner">
+                  <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#d3e3fc] flex items-center justify-center border border-[#d3e3fc]/30 shadow-sm">
                     <span className="text-base lg:text-lg drop-shadow-lg" aria-hidden="true">📊</span>
                   </div>
                   <div>
-                    <p className="text-white text-xs lg:text-sm font-bold tracking-tight">Laporan Keuangan</p>
-                    <p className="text-primary/70 text-[10px] lg:text-xs font-medium">Otomatis Terbit</p>
+                    <p className="text-[#17191c] text-xs lg:text-sm font-bold tracking-tight">Laporan Keuangan</p>
+                    <p className="text-[#17191c]/70 text-[10px] lg:text-xs font-semibold">Otomatis Terbit</p>
                   </div>
                 </div>
 
@@ -491,11 +468,11 @@ export function CinematicHero({
 
             {/* 3. BOTTOM (Mobile) / LEFT (Desktop): ACCOUNTABILITY TEXT */}
             <div className="card-left-text gsap-reveal order-3 lg:order-1 flex flex-col justify-center text-center lg:text-left z-20 w-full lg:max-w-none px-4 lg:px-0">
-              <h3 className="text-white text-2xl md:text-3xl lg:text-4xl font-bold mb-0 lg:mb-5 tracking-tight">
+              <h3 className="text-[#17191c] text-2xl md:text-3xl lg:text-4xl font-serif font-normal mb-0 lg:mb-5 tracking-tight">
                 {cardHeading}
               </h3>
               {/* HIDDEN ON MOBILE */}
-              <p className="hidden md:block text-neutral-300 text-sm md:text-base lg:text-lg font-normal leading-relaxed mx-auto lg:mx-0 max-w-sm lg:max-w-none">
+              <p className="hidden md:block text-[#4c4c4c] text-sm md:text-base lg:text-lg font-sans font-normal leading-relaxed mx-auto lg:mx-0 max-w-sm lg:max-w-none">
                 {finalCardDescription}
               </p>
             </div>

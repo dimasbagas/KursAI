@@ -2,30 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* Light Mode Colors */
 :root {
-  --background: #F8F9FA;
-  --foreground: #0F172A;
-  --card: #FFFFFF;
-  --card-foreground: #0F172A;
-  --primary: #2563EB;
-  --primary-hover: #1D4ED8;
-  --primary-foreground: #FFFFFF;
-  --secondary: #64748B;
-  --secondary-foreground: #FFFFFF;
-  --muted: #F1F5F9;
-  --muted-foreground: #64748B;
-  --accent: #EFF6FF;
-  --accent-foreground: #2563EB;
-  --border: #E2E8F0;
-  --input: #E2E8F0;
-  --ring: #2563EB;
-  --sidebar-bg: #FFFFFF;
-  --sidebar-border: #E2E8F0;
+  --background: #ffffff;
+  --foreground: #17191c;
+  --card: #ffffff;
+  --card-foreground: #17191c;
+  --primary: #17191c;
+  --primary-hover: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #5d2a1a;
+  --secondary-foreground: #ffffff;
+  --muted: #f7f7f8;
+  --muted-foreground: #4c4c4c;
+  --accent: #fbe1d1;
+  --accent-foreground: #5d2a1a;
+  --border: #a3a6af;
+  --input: #a3a6af;
+  --ring: #17191c;
+  --sidebar-bg: #f7f7f8;
+  --sidebar-border: #a3a6af;
   --card-glass: rgba(255, 255, 255, 0.8);
-  --primary-hover-border: rgba(37, 99, 235, 0.3);
+  --primary-hover-border: rgba(23, 25, 28, 0.3);
+
+  /* Steep brand colors */
+  --color-ink: #17191c;
+  --color-pure-white: #ffffff;
+  --color-fog: #f7f7f8;
+  --color-ash: #4c4c4c;
+  --color-graphite: #777b86;
+  --color-dove: #a3a6af;
+  --color-slate: #8b8c8d;
+  --color-obsidian: #000000;
+  --color-rust: #5d2a1a;
+  --color-apricot-wash: #fbe1d1;
+  --color-sky-wash: #d3e3fc;
+
+  /* Font mappings */
+  --font-signifier: 'Playfair Display', Georgia, serif;
+  --font-sohne: 'Inter', sans-serif;
 }
 
 /* Dark Mode Colors */

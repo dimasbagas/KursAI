@@ -72,44 +72,44 @@ export function GlowyWavesHero() {
     let time = 0;
 
     const computeThemeColors = () => {
-      // Use darker, more visible waves for light theme
+      // Use daylight/marble theme colors for Steep Style
       return {
-        backgroundTop: "rgb(255, 255, 255)", // Pure white
-        backgroundBottom: "rgb(249, 250, 251)", // Very light gray
+        backgroundTop: "#ffffff",
+        backgroundBottom: "#f7f7f8",
         wavePalette: [
           {
             offset: 0,
             amplitude: 70,
             frequency: 0.003,
-            color: "rgba(100, 116, 139, 0.5)", // Slate-500 - more visible
+            color: "rgba(119, 123, 134, 0.12)", // Graphite (#777b86)
             opacity: 0.5,
           },
           {
             offset: Math.PI / 2,
             amplitude: 90,
             frequency: 0.0026,
-            color: "rgba(71, 85, 105, 0.45)", // Slate-600 - darker
+            color: "rgba(163, 166, 175, 0.15)", // Dove (#a3a6af)
             opacity: 0.4,
           },
           {
             offset: Math.PI,
             amplitude: 60,
             frequency: 0.0034,
-            color: "rgba(51, 65, 85, 0.4)", // Slate-700 - even darker
+            color: "rgba(93, 42, 26, 0.08)", // Rust (#5d2a1a)
             opacity: 0.35,
           },
           {
             offset: Math.PI * 1.5,
             amplitude: 80,
             frequency: 0.0022,
-            color: "rgba(100, 116, 139, 0.35)", // Slate-500 medium
+            color: "rgba(251, 225, 209, 0.25)", // Apricot Wash (#fbe1d1)
             opacity: 0.3,
           },
           {
             offset: Math.PI * 2,
             amplitude: 55,
             frequency: 0.004,
-            color: "rgba(148, 163, 184, 0.3)", // Slate-400 lighter
+            color: "rgba(139, 140, 141, 0.1)", // Slate (#8b8c8d)
             opacity: 0.25,
           },
         ] satisfies WaveConfig[],
@@ -241,10 +241,10 @@ export function GlowyWavesHero() {
         aria-hidden="true"
       />
 
+      {/* Steep Style: Peach-lit dawn radial glow */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
-        <div className="absolute left-1/2 top-0 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-gray-900/[0.02] blur-[140px]" />
-        <div className="absolute bottom-0 right-0 h-[360px] w-[360px] rounded-full bg-gray-900/[0.015] blur-[120px]" />
-        <div className="absolute top-1/2 left-1/4 h-[400px] w-[400px] rounded-full bg-primary/[0.03] blur-[150px]" />
+        <div className="absolute left-1/2 top-1/4 h-[750px] w-[750px] -translate-x-1/2 rounded-full bg-[#fbe1d1]/30 blur-[130px]" />
+        <div className="absolute bottom-0 right-1/4 h-[400px] w-[400px] rounded-full bg-[#d3e3fc]/20 blur-[110px]" />
       </div>
 
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center px-6 py-24 text-center md:px-8 lg:px-12">
@@ -252,84 +252,83 @@ export function GlowyWavesHero() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="w-full"
+          className="w-full animate-fadeIn"
         >
           <motion.div
             variants={itemVariants}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-gray-600 backdrop-blur-sm shadow-sm"
+            className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#a3a6af]/20 bg-white/70 px-4.5 py-1.5 text-[11px] font-sans font-semibold uppercase tracking-[0.2em] text-[#4c4c4c] backdrop-blur-sm shadow-sm"
           >
-            <Sparkles className="h-4 w-4 text-primary" aria-hidden="true" />
-            Asisten AI untuk UMKM
+            <Sparkles className="h-3.5 w-3.5 text-[#5d2a1a]" aria-hidden="true" />
+            Asisten AI untuk UMKM Indonesia
           </motion.div>
 
           <motion.h1
             variants={itemVariants}
-            className="mb-6 text-4xl font-semibold tracking-tight text-gray-900 md:text-6xl lg:text-7xl"
+            className="mb-6 text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-serif text-[#17191c] tracking-[-0.025em] leading-[1.05]"
           >
-            Pembukuan Bisnis{" "}
-            <span className="bg-gradient-to-r from-gray-900 via-gray-700 to-gray-600 bg-clip-text text-transparent">
-              Jadi Mudah & Cepat
-            </span>
+            Pembukuan Bisnis <br className="hidden md:inline" />
+            <span className="text-[#5d2a1a] italic font-normal">Tinggal Chat Saja.</span>
           </motion.h1>
 
           <motion.p
             variants={itemVariants}
-            className="mx-auto mb-10 max-w-3xl text-lg text-gray-600 md:text-2xl"
+            className="mx-auto mb-10 max-w-2xl text-base md:text-lg text-[#4c4c4c] font-sans leading-relaxed tracking-[-0.009em]"
           >
-            Catat penjualan, hitung laba bersih, dan kelola stok barang secara instan lewat chat. Tidak perlu install aplikasi tambahan, tanpa belajar rumus Excel yang rumit.
+            Catat penjualan, hitung laba bersih, dan kelola stok barang secara instan lewat obrolan biasa. Tidak perlu install aplikasi tambahan, tanpa belajar rumus Excel yang rumit.
           </motion.p>
 
           <motion.div
             variants={itemVariants}
-            className="mb-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+            className="mb-14 flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
             <Button
               size="lg"
-              className="group gap-2 rounded-full px-8 text-base uppercase tracking-[0.2em] bg-gray-900 text-white hover:bg-gray-800"
+              className="group gap-2 rounded-full px-8 py-3 text-sm font-sans font-semibold bg-[#17191c] text-white hover:bg-black transition-all duration-300 shadow-md hover:scale-[1.02]"
             >
-              Mulai Catat Sekarang
+              Mulai Catat Gratis
               <ArrowRight
                 className="h-4 w-4 transition-transform group-hover:translate-x-1"
                 aria-hidden="true"
               />
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="rounded-full border-gray-300 bg-white/80 px-8 text-base text-gray-700 backdrop-blur transition-all hover:border-gray-400 hover:bg-gray-50"
+            <a
+              href="#showcase"
+              className="text-[#17191c] hover:underline text-sm font-sans font-semibold px-6 py-2.5 flex items-center gap-1 transition-all duration-200"
             >
               Lihat Demo Aplikasi
-            </Button>
+            </a>
           </motion.div>
 
           <motion.ul
             variants={itemVariants}
-            className="mb-12 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-[0.2em] text-gray-600"
+            className="mb-14 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-[0.2em] text-[#777b86]"
           >
             {highlightPills.map((pill) => (
               <li
                 key={pill}
-                className="rounded-full border border-gray-200 bg-white/80 px-4 py-2 backdrop-blur shadow-sm"
+                className="rounded-full border border-[#a3a6af]/20 bg-[#f7f7f8]/90 px-4.5 py-1.5 backdrop-blur-sm font-sans font-semibold text-[10px] text-[#4c4c4c]"
               >
                 {pill}
               </li>
             ))}
           </motion.ul>
 
+          {/* Steep style stats: 24px cards that feel like ceramic tiles, not windows */}
           <motion.div
             variants={statsVariants}
-            className="grid gap-4 rounded-2xl border border-gray-200 bg-white/80 p-6 backdrop-blur-sm shadow-sm sm:grid-cols-3"
+            className="grid gap-6 rounded-[24px] border border-[#a3a6af]/20 bg-white p-6 shadow-sm sm:grid-cols-3 max-w-3xl mx-auto"
+            style={{ boxShadow: "rgba(4, 23, 43, 0.03) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 15px 20px -5px" }}
           >
             {heroStats.map((stat) => (
               <motion.div
                 key={stat.label}
                 variants={itemVariants}
-                className="space-y-1"
+                className="space-y-1.5 p-3"
               >
-                <div className="text-xs uppercase tracking-[0.3em] text-gray-500">
+                <div className="text-[10px] uppercase tracking-[0.25em] text-[#777b86] font-sans font-bold">
                   {stat.label}
                 </div>
-                <div className="text-3xl font-semibold text-gray-900">
+                <div className="text-3xl md:text-4xl font-serif text-[#17191c] font-normal">
                   {stat.value}
                 </div>
               </motion.div>
