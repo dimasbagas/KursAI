@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/stores/authStore";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Bot,
@@ -19,6 +21,7 @@ import {
   Play,
   ArrowUpRight,
   Zap,
+  Loader2,
 } from "lucide-react";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import TextCursorProximity from "@/components/ui/text-cursor-proximity";
@@ -87,6 +90,34 @@ const chatExamples = [
 ];
 
 export default function LandingPage() {
+  const router = useRouter();
+  const { user, isLoading, loadUser } = useAuthStore();
+  const [fastChecking, setFastChecking] = useState(true);
+
+  useEffect(() => {
+    const checkFastSession = async () => {
+      try {
+        if (typeof window !== "undefined") {
+          const keys = Object.keys(localStorage);
+          const supabaseKey = keys.find(k => k.startsWith("sb-") && k.endsWith("-auth-token"));
+          const hasLocalToken = supabaseKey ? !!localStorage.getItem(supabaseKey) : false;
+
+          if (hasLocalToken) {
+            router.push("/dashboard");
+            return; // keep fastChecking true so it stays on loading state
+          }
+        }
+      } catch (e) {
+        console.error("Fast session check failed:", e);
+      }
+      
+      await loadUser();
+      setFastChecking(false);
+    };
+
+    checkFastSession();
+  }, [loadUser, router]);
+
   const [activeChatIndex, setActiveChatIndex] = useState(0);
   const [typedText, setTypedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
@@ -97,12 +128,18 @@ export default function LandingPage() {
 
   // Initialize interactive canvas background
   useEffect(() => {
+    if (isLoading || user) return;
+    
+    // Safely check if canvas is in the DOM
+    const canvas = document.getElementById("canvas");
+    if (!canvas) return;
+
     try {
       renderCanvas();
     } catch (e) {
       console.error("Failed to initialize canvas:", e);
     }
-  }, []);
+  }, [isLoading, user]);
 
   // Auto-typing simulator with bouncing thinking bubble
   useEffect(() => {
@@ -135,6 +172,19 @@ export default function LandingPage() {
 
     return () => clearTimeout(timer);
   }, [typedText, isTyping, activeChatIndex]);
+
+  if (fastChecking || isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen bg-[#0F1117] gap-3">
+        <Loader2 size={40} className="animate-spin text-primary" />
+        <p className="text-slate-400 text-sm font-semibold">Memuat halaman...</p>
+      </div>
+    );
+  }
+
+  if (user) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-dark-bg text-white selection:bg-primary selection:text-black overflow-x-hidden font-sans">

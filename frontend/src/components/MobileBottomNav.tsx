@@ -49,10 +49,9 @@ export default function MobileBottomNav() {
   const [errorMsg, setErrorMsg] = useState("");
 
   // Barcode States
-  const [barcodeStream, setBarcodeStream] = useState<MediaStream | null>(null);
+  const html5QrcodeRef = useRef<any>(null);
   const [scanStatus, setScanStatus] = useState<"idle" | "scanning" | "success" | "error">("idle");
   const [scannedProduct, setScannedProduct] = useState<any>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   // Voice States
   const [isListening, setIsListening] = useState(false);
@@ -131,72 +130,96 @@ export default function MobileBottomNav() {
     setScannedProduct(null);
     setErrorMsg("");
 
-    // Small delay to let the modal mount and mount video ref
+    // Small delay to let the modal mount
     setTimeout(async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment" },
-        });
-        setBarcodeStream(stream);
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
+        const { Html5Qrcode } = await import("html5-qrcode");
+        
+        // Element with ID 'reader' is the div inside the modal
+        const html5QrcodeInstance = new Html5Qrcode("reader");
+        html5QrcodeRef.current = html5QrcodeInstance;
 
-        // Simulate a barcode detection after 2.5 seconds
-        setTimeout(async () => {
-          const { data: products } = await supabase
-            .from("products")
-            .select("*")
-            .eq("business_id", businessId)
-            .limit(1);
+        await html5QrcodeInstance.start(
+          { facingMode: "environment" },
+          {
+            fps: 10,
+            qrbox: (width, height) => {
+              const size = Math.min(width, height) * 0.7;
+              return { width: size, height: size };
+            },
+          },
+          async (decodedText) => {
+            try {
+              // 1. Stop scanner
+              if (html5QrcodeInstance.isScanning) {
+                await html5QrcodeInstance.stop();
+              }
+              setScanStatus("idle");
 
-          if (products && products.length > 0) {
-            const product = products[0];
-            await supabase.from("transactions").insert({
-              business_id: businessId,
-              product_id: product.id,
-              type: "penjualan",
-              quantity: 1,
-              amount: product.sell_price,
-              note: `[Usaha] Scan Barcode: ${product.name}`,
-            });
+              // 2. Query product from DB matching barcode (sku)
+              const { data: products, error: queryErr } = await supabase
+                .from("products")
+                .select("*")
+                .eq("business_id", businessId)
+                .eq("sku", decodedText.trim())
+                .limit(1);
 
-            await supabase
-              .from("products")
-              .update({ stock: Math.max(0, product.stock - 1) })
-              .eq("id", product.id);
+              if (queryErr) throw queryErr;
 
-            setScannedProduct(product);
-            setScanStatus("success");
-          } else {
-            const mockProduct = { name: "Produk Contoh", sell_price: 25000, unit: "pcs" };
-            await supabase.from("transactions").insert({
-              business_id: businessId,
-              type: "penjualan",
-              quantity: 1,
-              amount: 25000,
-              note: `[Usaha] Scan Barcode: Produk Contoh`,
-            });
-            setScannedProduct(mockProduct);
-            setScanStatus("success");
+              if (products && products.length > 0) {
+                const product = products[0];
+                
+                // Record sale transaction
+                const { error: insertErr } = await supabase.from("transactions").insert({
+                  business_id: businessId,
+                  product_id: product.id,
+                  type: "penjualan",
+                  quantity: 1,
+                  amount: product.sell_price,
+                  note: `[Usaha] Scan Barcode: ${product.name}`,
+                });
+                if (insertErr) throw insertErr;
+
+                // Decrease stock
+                await supabase
+                  .from("products")
+                  .update({ stock: Math.max(0, product.stock - 1) })
+                  .eq("id", product.id);
+
+                setScannedProduct(product);
+                setScanStatus("success");
+              } else {
+                setScanStatus("error");
+                setErrorMsg(`Produk dengan Barcode/SKU "${decodedText}" tidak terdaftar di produk Anda.`);
+              }
+            } catch (err) {
+              console.error("Barcode processing error:", err);
+              setScanStatus("error");
+              setErrorMsg("Gagal memproses barcode hasil scan.");
+            }
+          },
+          (errorMessage) => {
+            // Keep scanning silently
           }
-
-          // Close camera stream
-          stream.getTracks().forEach((track) => track.stop());
-        }, 2500);
-
+        );
       } catch (err) {
         console.error("Camera access failed", err);
         setScanStatus("error");
-        setErrorMsg("Kamera tidak dapat diakses.");
+        setErrorMsg("Kamera tidak dapat diakses atau diblokir.");
       }
-    }, 100);
+    }, 150);
   };
 
-  const stopBarcodeScanner = () => {
-    if (barcodeStream) {
-      barcodeStream.getTracks().forEach((track) => track.stop());
-      setBarcodeStream(null);
+  const stopBarcodeScanner = async () => {
+    if (html5QrcodeRef.current) {
+      try {
+        if (html5QrcodeRef.current.isScanning) {
+          await html5QrcodeRef.current.stop();
+        }
+      } catch (err) {
+        console.error("Failed to stop scanner", err);
+      }
+      html5QrcodeRef.current = null;
     }
     setActiveAction(null);
     setScanStatus("idle");
@@ -390,11 +413,17 @@ export default function MobileBottomNav() {
 
   useEffect(() => {
     return () => {
-      if (barcodeStream) {
-        barcodeStream.getTracks().forEach((track) => track.stop());
+      if (html5QrcodeRef.current) {
+        try {
+          if (html5QrcodeRef.current.isScanning) {
+            html5QrcodeRef.current.stop();
+          }
+        } catch (err) {
+          console.error("Failed scanner cleanup on unmount", err);
+        }
       }
     };
-  }, [barcodeStream]);
+  }, []);
 
   // Floating Pill Menus configurations
   const pills = [
@@ -671,13 +700,9 @@ export default function MobileBottomNav() {
                 </div>
 
                 {scanStatus === "scanning" && (
-                  <div className="relative rounded-2xl overflow-hidden bg-black aspect-video border border-[var(--border)] flex items-center justify-center">
-                    <video ref={videoRef} autoPlay playsInline className="absolute inset-0 w-full h-full object-cover opacity-75" />
-                    <div className="absolute inset-x-0 h-0.5 bg-red-500 top-1/2 shadow-md shadow-red-500/80 animate-pulse-glow" style={{ animation: "pulse-glow 1.5s infinite" }} />
-                    <div className="relative z-10 p-3 bg-black/60 rounded-xl border border-white/10 text-center space-y-1">
-                      <Camera size={20} className="mx-auto text-blue-400 animate-pulse" />
-                      <p className="text-[10px] text-white font-bold">Mengarahkan Kamera...</p>
-                    </div>
+                  <div className="relative rounded-2xl overflow-hidden border border-[var(--border)] bg-black">
+                    <div id="reader" className="w-full aspect-video" />
+                    <div className="absolute inset-x-0 h-0.5 bg-red-500 top-1/2 shadow-md shadow-red-500/80 animate-pulse-glow pointer-events-none z-10" style={{ animation: "pulse-glow 1.5s infinite" }} />
                   </div>
                 )}
 
