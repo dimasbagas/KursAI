@@ -199,7 +199,7 @@ export default function ProductsPage() {
             setSelectedProduct(null);
             setShowModal(true);
           }}
-          className="bg-primary hover:bg-primary-hover hover:scale-[1.02] text-black font-bold text-xs py-3 px-6 rounded-xl shadow-lg shadow-primary/10 flex items-center justify-center gap-2 transition-all duration-300"
+          className="bg-primary hover:bg-primary-hover hover:scale-[1.02] text-[var(--primary-foreground)] font-bold text-xs py-3 px-6 rounded-xl shadow-lg shadow-primary/10 flex items-center justify-center gap-2 transition-all duration-300"
         >
           <Plus size={16} />
           Tambah Produk
@@ -510,7 +510,7 @@ export default function ProductsPage() {
                             onChange={() => handleToggleTracking(p)}
                             className="sr-only peer"
                           />
-                          <div className="w-9 h-5 bg-[var(--muted)] rounded-full peer peer-focus:ring-0 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary" />
+                          <div className="w-9 h-5 bg-slate-300 dark:bg-slate-700 rounded-full peer peer-focus:ring-0 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary" />
                         </label>
                       </td>
                       <td className="px-5 py-4">
@@ -622,9 +622,9 @@ function AddEditProductModal({ mode, product, onClose, onSaved }: ModalProps) {
       setName(product.name);
       setSku(product.sku || "");
       setCategory(product.category || "");
-      setStock(product.stock.toString());
-      setBuyPrice(product.buy_price.toString());
-      setSellPrice(product.sell_price.toString());
+      setStock((product.stock ?? 0).toString());
+      setBuyPrice((product.buy_price ?? (product as any).cost_price ?? 0).toString());
+      setSellPrice((product.sell_price ?? (product as any).price ?? 0).toString());
       setMinStock(product.min_stock > 0 ? product.min_stock.toString() : "");
       setUnit(product.unit || "pcs");
       setLacakStok(!product.description?.includes("[TRACK:false]"));
@@ -805,7 +805,7 @@ function AddEditProductModal({ mode, product, onClose, onSaved }: ModalProps) {
                 onChange={() => setLacakStok(!lacakStok)}
                 className="sr-only peer"
               />
-              <div className="w-9 h-5 bg-[var(--muted)] rounded-full peer peer-focus:ring-0 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary" />
+              <div className="w-9 h-5 bg-slate-300 dark:bg-slate-700 rounded-full peer peer-focus:ring-0 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary" />
             </label>
           </div>
 

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0F1117",
+  themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
 };
@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className="min-h-screen">
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem={false}
           disableTransitionOnChange
         >

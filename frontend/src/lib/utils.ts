@@ -14,10 +14,17 @@ export function formatCurrency(amount: number): string {
   }).format(amount);
 }
 
-export function formatDate(date: string | Date): string {
-  return new Intl.DateTimeFormat("id-ID", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(date));
+export function formatDate(date: string | Date | null | undefined): string {
+  if (!date) return "-";
+  try {
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return "-";
+    return new Intl.DateTimeFormat("id-ID", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    }).format(d);
+  } catch {
+    return "-";
+  }
 }

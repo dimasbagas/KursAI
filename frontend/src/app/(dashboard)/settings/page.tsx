@@ -286,7 +286,7 @@ export default function SettingsPage() {
         let importedProducts = 0;
         if (backup.products && backup.products.length > 0) {
           const { data: existing } = await supabase.from("products").select("name").eq("business_id", businessId);
-          const existingNames = new Set(existing?.map(p => p.name.toLowerCase()) || []);
+          const existingNames = new Set(existing?.map((p: any) => p.name.toLowerCase()) || []);
           
           const productsToInsert = backup.products
             .filter((p: any) => !existingNames.has(p.name.toLowerCase()))

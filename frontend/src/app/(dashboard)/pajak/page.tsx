@@ -77,7 +77,7 @@ export default function PajakPage() {
       const monthlyOmzet = Array(12).fill(0);
 
       // Filter and sum transaction amounts by month
-      txs?.forEach((tx) => {
+      txs?.forEach((tx: any) => {
         const txDate = new Date(tx.date || tx.created_at);
         if (txDate.getFullYear() === selectedYear) {
           // Check if transaction is income (penjualan, pendapatan_lain)

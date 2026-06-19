@@ -112,6 +112,11 @@ export default function LandingPage() {
       }
       
       await loadUser();
+      const currentUser = useAuthStore.getState().user;
+      if (currentUser) {
+        router.push("/dashboard");
+        return;
+      }
       setFastChecking(false);
     };
 

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Bot } from "lucide-react";
+import { Bot, Sparkles } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAuthStore } from "@/stores/authStore";
 
@@ -79,92 +79,136 @@ export default function RegisterPage() {
     }
   };
 
+  const handleDemoLogin = () => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("isDemoMode", "true");
+      localStorage.setItem(
+        "demoUser",
+        JSON.stringify({
+          id: "demo-user-id",
+          name: "Dimas Bagas (Demo)",
+          email: "demo@kursai.com",
+          role: "owner",
+        })
+      );
+      localStorage.setItem("demoBusinessId", "demo-business-id");
+    }
+    setAuth(
+      {
+        id: "demo-user-id",
+        name: "Dimas Bagas (Demo)",
+        email: "demo@kursai.com",
+        role: "owner",
+      },
+      "demo-business-id"
+    );
+    useAuthStore.getState().setLoading(false);
+    router.push("/dashboard");
+  };
+
   return (
-    <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-[#f7f7f8] text-[#17191c] selection:bg-[#fbe1d1] selection:text-[#5d2a1a] flex items-center justify-center p-4 relative overflow-hidden font-sans">
+      {/* Floating Animated Blobs */}
+      <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
+        <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#fbe1d1]/30 blur-[130px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-[#d3e3fc]/20 blur-[120px]" />
+      </div>
+
+      <div className="w-full max-w-md relative z-10 animate-fade-in">
         <div className="text-center mb-8">
-          <div className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <Bot size={32} className="text-black" />
+          <div className="w-14 h-14 bg-[#17191c] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+            <Bot size={32} className="text-[#fbe1d1]" />
           </div>
-          <h1 className="text-2xl font-bold text-[var(--foreground)]">Daftar KursAI</h1>
-          <p className="text-muted mt-1">Mulai kelola bisnis Anda dengan AI</p>
+          <h1 className="text-3xl font-serif font-bold text-[#17191c] tracking-tight">Daftar KursAI</h1>
+          <p className="text-[#4c4c4c] mt-2 font-sans text-sm">Mulai kelola bisnis Anda dengan AI</p>
         </div>
 
-        <div className="card">
+        <div className="bg-white border border-[#a3a6af]/30 rounded-[24px] p-6 md:p-8 shadow-sm">
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-lg text-sm">
+              <div className="bg-red-500/5 border border-red-500/20 text-red-600 px-4 py-3 rounded-xl text-sm">
                 {error}
               </div>
             )}
 
             <div>
-              <label className="block text-sm font-medium text-muted mb-1.5">Nama Lengkap</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#4c4c4c] mb-1.5">Nama Lengkap</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="input-field"
+                className="w-full bg-[#f7f7f8] border border-[#a3a6af]/40 rounded-xl px-4 py-2.5 text-[#17191c] placeholder:text-[#777b86] focus:outline-none focus:ring-2 focus:ring-[#17191c] focus:border-[#17191c] transition-all duration-200"
                 placeholder="Nama Anda"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-muted mb-1.5">Nama Usaha</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#4c4c4c] mb-1.5">Nama Usaha</label>
               <input
                 type="text"
                 value={businessName}
                 onChange={(e) => setBusinessName(e.target.value)}
-                className="input-field"
+                className="w-full bg-[#f7f7f8] border border-[#a3a6af]/40 rounded-xl px-4 py-2.5 text-[#17191c] placeholder:text-[#777b86] focus:outline-none focus:ring-2 focus:ring-[#17191c] focus:border-[#17191c] transition-all duration-200"
                 placeholder="Warung Bu Siti"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-muted mb-1.5">Email</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#4c4c4c] mb-1.5">Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="input-field"
+                className="w-full bg-[#f7f7f8] border border-[#a3a6af]/40 rounded-xl px-4 py-2.5 text-[#17191c] placeholder:text-[#777b86] focus:outline-none focus:ring-2 focus:ring-[#17191c] focus:border-[#17191c] transition-all duration-200"
                 placeholder="nama@email.com"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-muted mb-1.5">Password</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#4c4c4c] mb-1.5">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="input-field"
+                className="w-full bg-[#f7f7f8] border border-[#a3a6af]/40 rounded-xl px-4 py-2.5 text-[#17191c] placeholder:text-[#777b86] focus:outline-none focus:ring-2 focus:ring-[#17191c] focus:border-[#17191c] transition-all duration-200"
                 placeholder="Minimal 6 karakter"
                 minLength={6}
                 required
               />
             </div>
 
-            <button type="submit" disabled={loading} className="btn-primary w-full py-2.5">
+            <button type="submit" disabled={loading} className="w-full py-2.5 rounded-xl bg-[#17191c] text-white font-semibold hover:bg-black transition-all duration-200 shadow-sm disabled:opacity-50">
               {loading ? "Memproses..." : "Daftar Gratis"}
             </button>
 
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-dark-border" />
+                <div className="w-full border-t border-[#a3a6af]/20" />
               </div>
               <div className="relative flex justify-center text-xs">
-                <span className="bg-dark-card px-2 text-muted">atau</span>
+                <span className="bg-white px-3 text-[#777b86]">atau</span>
               </div>
             </div>
+
+            {process.env.NODE_ENV === "development" && (
+              <button
+                type="button"
+                onClick={handleDemoLogin}
+                className="w-full flex items-center justify-center gap-2 bg-[#fbe1d1] text-[#5d2a1a] font-semibold py-2.5 rounded-xl hover:bg-[#fad4bf] transition-all duration-200 shadow-sm"
+              >
+                <Sparkles size={18} />
+                Cobain Mode Demo (Bypass Login)
+              </button>
+            )}
 
             <button
               type="button"
               onClick={handleGoogleSignIn}
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 btn-secondary py-2.5"
+              className="w-full flex items-center justify-center gap-2 btn-secondary py-2.5 mt-3"
             >
               <svg width="20" height="20" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>

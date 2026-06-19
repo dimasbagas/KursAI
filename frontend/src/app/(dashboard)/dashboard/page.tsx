@@ -423,7 +423,7 @@ export default function DashboardPage() {
             onClick={() => setActiveTab("ringkasan")}
             className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
               activeTab === "ringkasan"
-                ? "bg-primary text-black shadow-md font-bold"
+                ? "bg-primary text-[var(--primary-foreground)] shadow-md font-bold"
                 : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
             }`}
           >
@@ -433,7 +433,7 @@ export default function DashboardPage() {
             onClick={() => setActiveTab("kur")}
             className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-1.5 ${
               activeTab === "kur"
-                ? "bg-primary text-black shadow-md font-bold"
+                ? "bg-primary text-[var(--primary-foreground)] shadow-md font-bold"
                 : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
             }`}
           >

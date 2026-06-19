@@ -20,12 +20,36 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ user, businessId });
   },
   logout: async () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("isDemoMode");
+      localStorage.removeItem("demoUser");
+      localStorage.removeItem("demoBusinessId");
+    }
     await supabase.auth.signOut();
     set({ user: null, businessId: null });
   },
   setLoading: (isLoading) => set({ isLoading }),
   loadUser: async () => {
     try {
+      if (typeof window !== "undefined" && localStorage.getItem("isDemoMode") === "true") {
+        const savedUser = localStorage.getItem("demoUser");
+        const savedBusinessId = localStorage.getItem("demoBusinessId");
+        
+        const resolvedUser = savedUser ? JSON.parse(savedUser) : {
+          id: "demo-user-id",
+          name: "Dimas Bagas (Demo)",
+          email: "demo@kursai.com",
+          role: "owner"
+        };
+        
+        set({
+          user: resolvedUser,
+          businessId: savedBusinessId || "demo-business-id",
+          isLoading: false,
+        });
+        return;
+      }
+
       const { data: { user: authUser } } = await supabase.auth.getUser();
       if (!authUser) {
         set({ user: null, businessId: null, isLoading: false });

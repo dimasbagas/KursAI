@@ -477,8 +477,8 @@ export default function InvoicesPage() {
   const overdueCount = invoices.filter(i => i.status === "overdue").length;
 
   const filteredInvoices = invoices.filter(inv => 
-    inv.customer_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    inv.invoice_number.toLowerCase().includes(searchQuery.toLowerCase())
+    (inv.customer_name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (inv.invoice_number || "").toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const statusColors: Record<string, string> = {

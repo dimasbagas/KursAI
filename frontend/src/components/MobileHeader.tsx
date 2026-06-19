@@ -20,7 +20,7 @@ export default function MobileHeader() {
     window.location.reload();
   };
 
-  const currentTheme = mounted ? theme : "dark";
+  const currentTheme = mounted ? theme : "light";
   const initial = user?.name ? user.name.charAt(0).toUpperCase() : (user?.email ? user.email.charAt(0).toUpperCase() : "U");
 
   return (

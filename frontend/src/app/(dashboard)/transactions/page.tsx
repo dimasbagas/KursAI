@@ -225,7 +225,7 @@ export default function TransactionsPage() {
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="bg-primary hover:bg-primary-hover hover:scale-[1.02] text-black font-bold text-xs py-3 px-6 rounded-xl shadow-lg shadow-primary/10 flex items-center justify-center gap-2 transition-all duration-300"
+          className="bg-primary hover:bg-primary-hover hover:scale-[1.02] text-[var(--primary-foreground)] font-bold text-xs py-3 px-6 rounded-xl shadow-lg shadow-primary/10 flex items-center justify-center gap-2 transition-all duration-300"
         >
           <Plus size={16} />
           Tambah Transaksi
@@ -548,7 +548,7 @@ export default function TransactionsPage() {
           </p>
           <button
             onClick={() => setShowAddModal(true)}
-            className="bg-primary hover:bg-primary-hover hover:scale-[1.02] text-black font-bold text-xs py-2.5 px-5 rounded-xl transition-all duration-300 shadow-md shadow-primary/5 mx-auto"
+            className="bg-primary hover:bg-primary-hover hover:scale-[1.02] text-[var(--primary-foreground)] font-bold text-xs py-2.5 px-5 rounded-xl transition-all duration-300 shadow-md shadow-primary/5 mx-auto"
           >
             + Tambah Transaksi
           </button>
@@ -631,7 +631,7 @@ export default function TransactionsPage() {
       {/* Floating AI Assistant Trigger Button (Bottom Right) */}
       <Link
         href="/ai"
-        className="fixed bottom-20 md:bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-primary text-black flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 animate-bounce"
+        className="fixed bottom-20 md:bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-primary text-[var(--primary-foreground)] flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 animate-bounce"
         title="Buka Chat AI"
       >
         <Bot size={22} />

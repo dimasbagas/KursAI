@@ -69,7 +69,7 @@ export default function TeamPage() {
       }
 
       // 2. Fetch associated users profiles
-      const userIds = teamData.map((m) => m.user_id);
+      const userIds = teamData.map((m: any) => m.user_id);
       const { data: usersData, error: usersError } = await supabase
         .from("users")
         .select("*")
@@ -78,8 +78,8 @@ export default function TeamPage() {
       if (usersError) throw usersError;
 
       // 3. Map together
-      const mapped: TeamMemberDetail[] = teamData.map((member) => {
-        const profile = usersData?.find((u) => u.id === member.user_id);
+      const mapped: TeamMemberDetail[] = teamData.map((member: any) => {
+        const profile = usersData?.find((u: any) => u.id === member.user_id);
         return {
           id: member.id,
           user_id: member.user_id,

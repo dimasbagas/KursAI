@@ -81,7 +81,7 @@ export default function AksesModalPage() {
       }
 
       // Calculate active months
-      const dates = txs.map(tx => new Date(tx.date || tx.created_at).getTime());
+      const dates = txs.map((tx: any) => new Date(tx.date || tx.created_at).getTime());
       const minDate = new Date(Math.min(...dates));
       const maxDate = new Date(); // Compare to today
       
@@ -92,8 +92,8 @@ export default function AksesModalPage() {
 
       // Calculate monthly turnover (omzet)
       const totalIncome = txs
-        .filter(tx => tx.type === "penjualan" || tx.type === "pendapatan_lain")
-        .reduce((sum, tx) => sum + (Number(tx.amount) || 0), 0);
+        .filter((tx: any) => tx.type === "penjualan" || tx.type === "pendapatan_lain")
+        .reduce((sum: number, tx: any) => sum + (Number(tx.amount) || 0), 0);
       
       const averageOmzet = totalIncome / months;
       setAvgOmzet(averageOmzet);
@@ -120,8 +120,8 @@ export default function AksesModalPage() {
 
         // Points for cashflow ratio (Revenue vs Expenses)
         const totalExpenses = txs
-          .filter(tx => tx.type === "pengeluaran" || tx.type === "pembelian")
-          .reduce((sum, tx) => sum + (Number(tx.amount) || 0), 0);
+          .filter((tx: any) => tx.type === "pengeluaran" || tx.type === "pembelian")
+          .reduce((sum: number, tx: any) => sum + (Number(tx.amount) || 0), 0);
         
         if (totalIncome > totalExpenses * 1.5) {
           score += 60; // Very healthy margin

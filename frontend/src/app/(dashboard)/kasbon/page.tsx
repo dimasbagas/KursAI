@@ -97,7 +97,7 @@ export default function KasbonPage() {
         .eq("type", "kasbon")
         .order("date", { ascending: false });
 
-      const parsed = (data || []).map((t) => parseKasbon(t));
+      const parsed = (data || []).map((t: any) => parseKasbon(t));
       setKasbons(parsed);
     } catch (err) {
       console.error("Failed to load kasbon", err);

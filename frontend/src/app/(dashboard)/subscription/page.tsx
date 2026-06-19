@@ -74,7 +74,7 @@ export default function SubscriptionPage() {
             }`}
           >
             {plan.popular && (
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-black text-xs font-bold px-3 py-1 rounded-full">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-[var(--primary-foreground)] text-xs font-bold px-3 py-1 rounded-full">
                 POPULER
               </div>
             )}
@@ -83,7 +83,7 @@ export default function SubscriptionPage() {
                 PAKET SAAT INI
               </div>
             )}
-
+ 
             <div className="text-center mb-6">
               <plan.icon size={32} className={`mx-auto mb-3 ${plan.popular ? "text-primary" : "text-muted"}`} />
               <h3 className="text-lg font-bold">{plan.name}</h3>
@@ -92,7 +92,7 @@ export default function SubscriptionPage() {
                 <span className="text-muted text-sm">{plan.period}</span>
               </div>
             </div>
-
+ 
             <ul className="space-y-3 mb-6">
               {plan.features.map((feature) => (
                 <li key={feature} className="flex items-start gap-2 text-sm">
@@ -101,13 +101,13 @@ export default function SubscriptionPage() {
                 </li>
               ))}
             </ul>
-
+ 
             <button
               className={`w-full py-2.5 rounded-lg font-medium transition-all ${
                 plan.current
                   ? "bg-dark-card border border-dark-border text-muted cursor-default"
                   : plan.popular
-                  ? "bg-primary text-black hover:bg-primary-hover"
+                  ? "bg-primary text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)]"
                   : "btn-secondary"
               }`}
               disabled={plan.current}

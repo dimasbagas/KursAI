@@ -56,7 +56,7 @@ export default function Sidebar() {
     setMounted(true);
   }, []);
 
-  const currentTheme = mounted ? theme : "dark";
+  const currentTheme = mounted ? theme : "light";
 
   return (
     <>
