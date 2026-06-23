@@ -94,7 +94,11 @@ export default function MobileBottomNav() {
   // TRANSACTION LOGIC
   // ----------------------------------------------------
   const handleQuickSubmit = async (type: "penjualan" | "pengeluaran") => {
-    if (!formName.trim() || !formAmount || !businessId) {
+    if (!businessId) {
+      setErrorMsg("Unit usaha tidak terdeteksi. Silakan muat ulang halaman.");
+      return;
+    }
+    if (!formName.trim() || !formAmount) {
       setErrorMsg("Harap isi semua kolom!");
       return;
     }
@@ -444,7 +448,11 @@ Terima Kasih Atas Kunjungan Anda
   };
 
   const handleSaveScanTransaction = async () => {
-    if (!editMerchant.trim() || !editTotal || !businessId) {
+    if (!businessId) {
+      setErrorMsg("Unit usaha tidak terdeteksi. Silakan muat ulang halaman.");
+      return;
+    }
+    if (!editMerchant.trim() || !editTotal) {
       setErrorMsg("Harap isi Nama Toko dan Total nominal!");
       return;
     }
@@ -781,7 +789,7 @@ Terima Kasih Atas Kunjungan Anda
               setShowQuickMenu(!showQuickMenu);
               setActiveAction(null);
             }}
-            className="w-11 h-11 rounded-full bg-gradient-to-tr from-primary to-[#22C55E] text-[var(--primary-foreground)] flex items-center justify-center shadow-lg shadow-primary/10 hover:scale-105 active:scale-95 transition-all duration-300"
+            className="w-11 h-11 rounded-full bg-[#5D2A1A] text-white flex items-center justify-center shadow-lg shadow-primary/10 hover:scale-105 active:scale-95 transition-all duration-300"
           >
             <Plus 
               size={24} 
@@ -1284,7 +1292,7 @@ Terima Kasih Atas Kunjungan Anda
                       <button
                         onClick={handleSaveScanTransaction}
                         disabled={isSubmitting}
-                        className="flex-1 btn-primary text-xs py-2.5 flex items-center justify-center gap-1.5 bg-gradient-to-r from-primary to-[#22C55E] text-[var(--primary-foreground)] rounded-xl"
+                        className="flex-1 btn-primary text-xs py-2.5 flex items-center justify-center gap-1.5"
                       >
                         {isSubmitting ? (
                           <Loader2 size={14} className="animate-spin" />

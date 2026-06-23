@@ -56,11 +56,38 @@ export const useAuthStore = create<AuthState>((set) => ({
         return;
       }
 
-      const { data: profile } = await supabase
+      let profile = null;
+      const { data: existingProfile, error: profileError } = await supabase
         .from("users")
         .select("*")
         .eq("id", authUser.id)
         .maybeSingle();
+
+      if (profileError) {
+        console.error("Error fetching user profile:", profileError);
+      } else {
+        profile = existingProfile;
+      }
+
+      // Self-healing: if profile is missing in public.users, attempt to create it from client side
+      if (!profile) {
+        const fallbackName = authUser.user_metadata?.name || authUser.user_metadata?.full_name || authUser.email?.split("@")[0] || "Pengguna KursAI";
+        const { data: insertedProfile, error: insertProfileError } = await supabase
+          .from("users")
+          .insert({
+            id: authUser.id,
+            name: fallbackName,
+            email: authUser.email || ""
+          })
+          .select("*")
+          .maybeSingle();
+
+        if (insertProfileError) {
+          console.warn("Client-side user profile creation failed (expected if insert policy is not updated):", insertProfileError);
+        } else if (insertedProfile) {
+          profile = insertedProfile;
+        }
+      }
 
       const { data: business } = await supabase
         .from("businesses")
@@ -70,7 +97,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         .maybeSingle();
 
       let businessId = business?.id || null;
-      let resolvedUser = profile || { id: authUser.id, name: authUser.user_metadata?.name || "", email: authUser.email || "", role: "owner" };
+      let resolvedUser = profile || { id: authUser.id, name: authUser.user_metadata?.name || authUser.user_metadata?.full_name || authUser.email?.split("@")[0] || "Pengguna KursAI", email: authUser.email || "", role: "owner" };
 
       if (!businessId) {
         const { data: teamMember } = await supabase
@@ -86,6 +113,35 @@ export const useAuthStore = create<AuthState>((set) => ({
             ...resolvedUser,
             role: teamMember.role || "staff"
           };
+        } else {
+          // No business and no team membership found. Auto-create a default business!
+          try {
+            const { data: newBiz, error: createBizError } = await supabase
+              .from("businesses")
+              .insert({
+                owner_id: authUser.id,
+                name: "Usaha Saya"
+              })
+              .select("id")
+              .single();
+
+            if (!createBizError && newBiz) {
+              businessId = newBiz.id;
+              
+              // Try to create a default subscription record for metadata
+              try {
+                await supabase.from("subscriptions").insert({
+                  business_id: newBiz.id,
+                });
+              } catch (subErr) {
+                console.warn("Failed to create auto subscription record:", subErr);
+              }
+            } else if (createBizError) {
+              console.error("Auto business creation error:", createBizError);
+            }
+          } catch (createErr) {
+            console.error("Auto-creating business failed:", createErr);
+          }
         }
       }
 

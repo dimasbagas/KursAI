@@ -680,13 +680,20 @@ export default function SettingsPage() {
                 Punya ide, saran, atau menemukan kendala? Ceritakan kepada kami agar KursAI semakin baik.
               </p>
             </div>
-            <div>
+            <div className="flex flex-wrap gap-3">
               <button
                 type="button"
                 onClick={handleWhatsAppSupport}
                 className="btn-secondary text-xs px-5 py-2.5 rounded-xl font-semibold flex items-center gap-1.5"
               >
-                Beri Masukan
+                Hubungi Support
+              </button>
+              <button
+                type="button"
+                onClick={() => router.push("/kuesioner")}
+                className="btn-primary text-xs px-5 py-2.5 rounded-xl font-semibold flex items-center gap-1.5"
+              >
+                Isi Kuesioner Evaluasi
               </button>
             </div>
           </div>

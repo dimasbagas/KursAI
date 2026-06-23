@@ -27,6 +27,7 @@ import {
   Landmark,
   Sun,
   Moon,
+  ClipboardCheck,
 } from "lucide-react";
 
 const menuItems = [
@@ -41,6 +42,7 @@ const menuItems = [
   { icon: FolderOpen, label: "Dokumen", href: "/documents" },
   { icon: Users, label: "Tim", href: "/team" },
   { icon: Settings, label: "Pengaturan", href: "/settings" },
+  { icon: ClipboardCheck, label: "Kuesioner", href: "/kuesioner" },
   { icon: Crown, label: "Langganan", href: "/subscription" },
 ];
 

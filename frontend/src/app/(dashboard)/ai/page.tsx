@@ -589,7 +589,13 @@ export default function AIPage() {
   };
 
   const handleSend = async () => {
-    if (!input.trim() || loading || !businessId) return;
+    if (!input.trim() || loading) return;
+    if (!businessId) {
+      alert("Unit usaha belum terdeteksi. Sistem sedang mencoba memulihkan koneksi, silakan tunggu beberapa saat lalu coba kirim kembali.");
+      const { loadUser } = useAuthStore.getState();
+      loadUser();
+      return;
+    }
     const userMessage = input;
     setInput("");
 
@@ -1069,7 +1075,7 @@ export default function AIPage() {
                 <button
                   onClick={handleSend}
                   disabled={loading || !input.trim()}
-                  className="w-10 h-10 rounded-xl bg-gradient-to-r from-primary to-secondary disabled:from-primary/20 disabled:to-secondary/20 text-[var(--primary-foreground)] flex items-center justify-center hover:scale-105 active:scale-95 disabled:scale-100 transition-all shadow-lg shadow-primary/20 disabled:shadow-none"
+                  className="w-10 h-10 rounded-xl bg-primary disabled:bg-primary/20 text-[var(--primary-foreground)] flex items-center justify-center hover:scale-105 active:scale-95 disabled:scale-100 transition-all shadow-lg shadow-primary/10 disabled:shadow-none"
                 >
                   <ArrowRight size={18} />
                 </button>
